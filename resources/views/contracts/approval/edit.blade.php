@@ -50,8 +50,11 @@
                                         <div class="col-md-6">
                                             <strong>ID Personal:</strong> {{ $sale->identificacion_personal }}
                                         </div>
-                                        <div class="col-12">
-                                            <strong>Domicilio:</strong> {{ $sale->domicilio }}
+                                        <div class="col-md-6">
+                                            <strong>Fuente:</strong> {{ $sale->fuente ?? 'N/A' }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>Fecha de Cierre:</strong> {{ $sale->fecha_cierre ? $sale->fecha_cierre->format('d/m/Y') : 'N/A' }}
                                         </div>
                                     </div>
                                 </div>

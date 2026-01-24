@@ -18,6 +18,8 @@ use App\Http\Controllers\TraigeCallsController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\FormSubmissionController;
 use App\Http\Controllers\FulfillmentFormController;
+use App\Http\Controllers\PriceConfigurationController;
+use App\Http\Controllers\FinanceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -162,6 +164,29 @@ Route::middleware('auth')->prefix('fulfillment')->name('fulfillment.')->group(fu
     Route::get('/form/submissions', [FulfillmentFormController::class, 'getSubmissions'])->name('form.submissions');
     Route::post('/form/store', [FulfillmentFormController::class, 'store'])->name('form.store');
     Route::get('/form/submission/{submissionId}', [FulfillmentFormController::class, 'show'])->name('form.submission.show');
+});
+
+// ============================================================
+// CONFIGURATION ROUTES (Admin only)
+// ============================================================
+Route::middleware(['auth', 'verified'])->prefix('configuration')->name('configuration.')->group(function () {
+    // Configuracion de precios
+    // IMPORTANTE: La ruta de API debe estar ANTES de la ruta con {id} para evitar que sea capturada
+    Route::get('prices/api/get-price', [PriceConfigurationController::class, 'getPriceForType'])->name('prices.api.get');
+    Route::get('prices', [PriceConfigurationController::class, 'index'])->name('prices.index');
+    Route::get('prices/{id}', [PriceConfigurationController::class, 'show'])->name('prices.show');
+    Route::put('prices/{id}', [PriceConfigurationController::class, 'update'])->name('prices.update');
+});
+
+// ============================================================
+// FINANCE ROUTES (Admin and Finanzas role)
+// ============================================================
+Route::middleware(['auth', 'verified'])->prefix('finanzas')->name('finanzas.')->group(function () {
+    Route::get('dashboard', [FinanceController::class, 'dashboard'])->name('dashboard');
+    Route::get('cuotas', [FinanceController::class, 'installments'])->name('cuotas');
+    Route::post('cuotas/{installmentId}/pago', [FinanceController::class, 'registerPayment'])->name('cuotas.pago');
+    Route::get('cuotas/{installmentId}/historial', [FinanceController::class, 'getInstallmentHistory'])->name('cuotas.historial');
+    Route::get('exportar', [FinanceController::class, 'exportExcel'])->name('exportar');
 });
 
 require __DIR__.'/auth.php';

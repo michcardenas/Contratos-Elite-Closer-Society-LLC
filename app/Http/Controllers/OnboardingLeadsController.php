@@ -30,7 +30,7 @@ class OnboardingLeadsController extends Controller
     {
         if ($request->ajax()) {
             // Solo leads que tienen una venta registrada con contrato aprobado
-            $query = Lead::with(['sale.contractTemplate', 'onboardingCalls' => function($query) {
+            $query = Lead::with(['sale.contractTemplate', 'sale.paymentProofs', 'sale.installments', 'onboardingCalls' => function($query) {
                 $query->latest();
             }])
             ->whereHas('sale', function($query) {
@@ -54,6 +54,35 @@ class OnboardingLeadsController extends Controller
                     
                     // Botón para ver información de venta
                     if ($lead->sale) {
+                        // Preparar comprobantes como JSON
+                        $comprobantes = $lead->sale->paymentProofs->map(function($proof) {
+                            return [
+                                'url' => asset($proof->file_path),
+                                'name' => $proof->original_name ?? basename($proof->file_path)
+                            ];
+                        })->toArray();
+                        // Si no hay en la nueva tabla, usar el comprobante principal
+                        if (empty($comprobantes) && $lead->sale->comprobante_pago_path) {
+                            $comprobantes = [[
+                                'url' => asset($lead->sale->comprobante_pago_path),
+                                'name' => basename($lead->sale->comprobante_pago_path)
+                            ]];
+                        }
+
+                        // Preparar cuotas como JSON
+                        $cuotas = $lead->sale->installments->map(function($installment) use ($lead) {
+                            return [
+                                'numero' => $installment->numero_cuota,
+                                'monto' => number_format($installment->monto, 2),
+                                'fecha_vencimiento' => $installment->fecha_vencimiento ? $installment->fecha_vencimiento->format('d/m/Y') : 'N/A',
+                                'estado' => $installment->getEstadoLabel(),
+                                'estado_badge' => $installment->getEstadoBadgeClass(),
+                                'monto_pagado' => number_format($installment->monto_pagado ?? 0, 2),
+                                'fecha_pago' => $installment->fecha_pago ? $installment->fecha_pago->format('d/m/Y') : null,
+                                'moneda' => $lead->sale->moneda ?? 'USD',
+                            ];
+                        })->toArray();
+
                         $buttons .= '<button type="button" class="btn btn-outline-primary btn-sm view-sale-btn"
                             data-lead-id="' . $lead->id . '"
                             data-nombre="' . e($lead->sale->nombre_cliente) . '"
@@ -61,16 +90,25 @@ class OnboardingLeadsController extends Controller
                             data-email="' . e($lead->sale->email_cliente) . '"
                             data-telefono="' . e($lead->sale->telefono_cliente) . '"
                             data-identificacion="' . e($lead->sale->identificacion_personal) . '"
-                            data-domicilio="' . e($lead->sale->domicilio) . '"
+                            data-fuente="' . e($lead->sale->fuente) . '"
                             data-metodo_pago="' . e($lead->sale->metodo_pago) . '"
                             data-tipo_acuerdo="' . e($lead->sale->tipo_acuerdo) . '"
                             data-tipo_contrato="' . e($lead->sale->tipo_contrato) . '"
+                            data-fecha_cierre="' . ($lead->sale->fecha_cierre ? $lead->sale->fecha_cierre->format('d/m/Y') : 'N/A') . '"
                             data-comentarios="' . e($lead->sale->comentarios) . '"
-                            data-comprobante="' . asset($lead->sale->comprobante_pago_path) . '"
+                            data-comprobantes=\'' . json_encode($comprobantes) . '\'
                             data-contrato="' . e($lead->sale->contractTemplate->name ?? 'N/A') . '"
                             data-contrato_estado="' . ($lead->sale->contract_approved ? 'Aprobado' : 'Pendiente') . '"
                             data-forma_pago="' . e($lead->sale->contract_data['forma_de_pago'] ?? 'N/A') . '"
                             data-fecha_firma="' . ($lead->sale->contract_signed_date ? $lead->sale->contract_signed_date->format('d/m/Y H:i') : 'N/A') . '"
+                            data-monto_total="' . number_format($lead->sale->monto_total ?? 0, 2) . '"
+                            data-monto_final="' . number_format($lead->sale->monto_final ?? 0, 2) . '"
+                            data-descuento="' . ($lead->sale->descuento_porcentaje ? number_format($lead->sale->descuento_porcentaje, 0) . '%' : ($lead->sale->descuento_monto ? '$' . number_format($lead->sale->descuento_monto, 2) : 'Sin descuento')) . '"
+                            data-moneda="' . e($lead->sale->moneda ?? 'USD') . '"
+                            data-estado_pago="' . e($lead->sale->getEstadoPagoLabel()) . '"
+                            data-estado_pago_badge="' . e($lead->sale->getEstadoPagoBadgeClass()) . '"
+                            data-total_pagado="' . number_format($lead->sale->getTotalPagado(), 2) . '"
+                            data-cuotas=\'' . json_encode($cuotas) . '\'
                             title="Ver Detalles de la Venta">
                             <i class="bi bi-eye"></i>
                         </button>';
@@ -141,14 +179,36 @@ class OnboardingLeadsController extends Controller
                         ->whereIn('status', ['pendiente'])
                         ->orderBy('scheduled_date', 'asc')
                         ->first();
-                    
+
                     if ($nextCall) {
                         return $nextCall->scheduled_date->format('d/m/Y H:i');
                     }
-                    
+
                     return '-';
                 })
-                ->rawColumns(['action', 'onboarding_status'])
+                ->addColumn('payment_status', function ($lead) {
+                    if (!$lead->sale) {
+                        return '<span class="badge bg-secondary">Sin venta</span>';
+                    }
+
+                    $badgeClass = $lead->sale->getEstadoPagoBadgeClass();
+                    $label = $lead->sale->getEstadoPagoLabel();
+
+                    // Agregar indicador de cuotas vencidas
+                    $overdue = $lead->sale->installments->filter(function($i) {
+                        return $i->estado === 'vencida' ||
+                               ($i->estado === 'pendiente' && $i->fecha_vencimiento < now());
+                    })->count();
+
+                    $html = '<span class="badge bg-' . $badgeClass . '">' . $label . '</span>';
+
+                    if ($overdue > 0) {
+                        $html .= ' <span class="badge bg-danger" title="Cuotas vencidas"><i class="bi bi-exclamation-triangle"></i> ' . $overdue . '</span>';
+                    }
+
+                    return $html;
+                })
+                ->rawColumns(['action', 'onboarding_status', 'payment_status'])
                 ->make(true);
         }
 
@@ -174,7 +234,7 @@ class OnboardingLeadsController extends Controller
 
     public function logs($id)
     {
-        $lead = Lead::with(['sale', 'onboardingCalls'])->findOrFail($id);
+        $lead = Lead::with(['sale.paymentProofs', 'onboardingCalls'])->findOrFail($id);
 
         // Obtener todos los logs relacionados con este lead
         $allLogs = collect();
@@ -209,7 +269,32 @@ class OnboardingLeadsController extends Controller
         // Ordenar todos los logs por fecha descendente
         $allLogs = $allLogs->sortByDesc('created_at');
 
-        return response()->json($allLogs->map(function ($log) {
+        // Preparar comprobantes multiples para logs de venta
+        $paymentProofs = [];
+        if ($lead->sale) {
+            $paymentProofs = $lead->sale->paymentProofs->map(function($proof) {
+                return [
+                    'url' => asset($proof->file_path),
+                    'name' => $proof->original_name ?? basename($proof->file_path)
+                ];
+            })->toArray();
+            // Fallback al comprobante principal si no hay en la tabla nueva
+            if (empty($paymentProofs) && $lead->sale->comprobante_pago_path) {
+                $paymentProofs = [[
+                    'url' => asset($lead->sale->comprobante_pago_path),
+                    'name' => basename($lead->sale->comprobante_pago_path)
+                ]];
+            }
+        }
+
+        return response()->json($allLogs->map(function ($log) use ($paymentProofs) {
+            $archivos = $log->archivo_soporte;
+
+            // Para logs de venta, incluir todos los comprobantes
+            if ($log->tipo_log === 'venta' && !empty($paymentProofs)) {
+                $archivos = $paymentProofs;
+            }
+
             return [
                 'estado_anterior' => $log->valor_viejo ?? 'N/A',
                 'estado_nuevo' => $log->valor_nuevo ?? 'N/A',
@@ -217,7 +302,7 @@ class OnboardingLeadsController extends Controller
                 'usuario' => $log->usuario->name ?? 'Desconocido',
                 'fecha' => $log->created_at->format('Y-m-d H:i'),
                 'tipo' => $this->getLogType($log->tabla, $log->tipo_log ?? null),
-                'archivo_soporte' => $log->archivo_soporte,
+                'archivo_soporte' => $archivos,
             ];
         })->values());
     }

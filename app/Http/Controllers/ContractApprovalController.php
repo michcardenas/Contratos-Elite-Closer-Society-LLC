@@ -156,10 +156,16 @@ class ContractApprovalController extends Controller
         $contractData['mes'] = $contractData['mes'] ?? $this->getMonthName($today->month);
         $contractData['anio'] = $contractData['anio'] ?? $today->year;
 
-        // Usar solo los datos del contrato tal como están
+        // Generar tabla de cuotas si existe el placeholder
+        if (strpos($html, '{tabla_cuotas}') !== false) {
+            $tablaCuotas = $this->generateTablaCuotas($sale);
+            $html = str_replace('{tabla_cuotas}', $tablaCuotas, $html);
+        }
+
+        // Usar solo los datos del contrato tal como estan
         foreach ($contractData as $key => $value) {
             if ($key === 'imagen_firma' && $value) {
-                // Para imágenes de firma, insertar como img tag
+                // Para imagenes de firma, insertar como img tag
                 $html = str_replace('{' . $key . '}', '<img src="' . $value . '" class="signature-image">', $html);
             } else {
                 $html = str_replace('{' . $key . '}', $value ?? '', $html);
@@ -167,6 +173,84 @@ class ContractApprovalController extends Controller
         }
 
         return $html;
+    }
+
+    /**
+     * Generar HTML de la tabla de cuotas para el contrato
+     */
+    private function generateTablaCuotas($sale): string
+    {
+        // Cargar las cuotas de la venta
+        $installments = $sale->installments ?? collect();
+        $moneda = $sale->moneda ?? 'USD';
+        $montoFinal = $sale->monto_final ?? $sale->monto_total ?? 0;
+
+        // Si no hay cuotas, mostrar pago unico
+        if ($installments->isEmpty()) {
+            return sprintf(
+                '<p style="margin: 10px 0;"><strong>Pago unico:</strong> $%s %s al momento de la firma del contrato.</p>',
+                number_format($montoFinal, 2),
+                $moneda
+            );
+        }
+
+        // Si es pago completo (1 cuota)
+        if ($installments->count() === 1) {
+            $cuota = $installments->first();
+            $fechaFormateada = $cuota->fecha_vencimiento
+                ? $cuota->fecha_vencimiento->format('d') . ' de ' . $this->getMonthName($cuota->fecha_vencimiento->month) . ' de ' . $cuota->fecha_vencimiento->year
+                : 'al momento de la firma';
+
+            return sprintf(
+                '<p style="margin: 10px 0;"><strong>Pago unico:</strong> $%s %s - Vencimiento: %s</p>',
+                number_format($cuota->monto, 2),
+                $moneda,
+                $fechaFormateada
+            );
+        }
+
+        // Multiples cuotas - generar tabla
+        $tableHtml = '
+        <table style="width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 14px;">
+            <thead>
+                <tr style="background-color: #f5f5f5;">
+                    <th style="border: 1px solid #ddd; padding: 10px; text-align: center;">Cuota</th>
+                    <th style="border: 1px solid #ddd; padding: 10px; text-align: right;">Monto</th>
+                    <th style="border: 1px solid #ddd; padding: 10px; text-align: center;">Fecha de Vencimiento</th>
+                </tr>
+            </thead>
+            <tbody>';
+
+        foreach ($installments as $installment) {
+            $fechaFormateada = $installment->fecha_vencimiento
+                ? $installment->fecha_vencimiento->format('d') . ' de ' . $this->getMonthName($installment->fecha_vencimiento->month) . ' de ' . $installment->fecha_vencimiento->year
+                : '-';
+
+            $tableHtml .= sprintf(
+                '<tr>
+                    <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">%d</td>
+                    <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">$%s %s</td>
+                    <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">%s</td>
+                </tr>',
+                $installment->numero_cuota,
+                number_format($installment->monto, 2),
+                $moneda,
+                $fechaFormateada
+            );
+        }
+
+        $tableHtml .= sprintf(
+            '<tr style="background-color: #f5f5f5; font-weight: bold;">
+                <td style="border: 1px solid #ddd; padding: 10px; text-align: right;" colspan="2">Total:</td>
+                <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">$%s %s</td>
+            </tr>',
+            number_format($montoFinal, 2),
+            $moneda
+        );
+
+        $tableHtml .= '</tbody></table>';
+
+        return $tableHtml;
     }
 
     private function getMonthName($monthNumber)

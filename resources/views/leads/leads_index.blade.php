@@ -5,6 +5,56 @@
 
     <div class="py-12" style="padding-top: 0;">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <!-- Closer Daily Form Card -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
+                <div class="p-4 text-gray-900">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">
+                            <i class="bi bi-file-text text-warning"></i>
+                            Formulario Closer Daily
+                        </h5>
+                        <div id="closerDailyStatusBadge">
+                            <span class="badge bg-secondary">Cargando...</span>
+                        </div>
+                    </div>
+
+                    <!-- Informational Alert (shown when already submitted today) -->
+                    <div id="closerDailyInfoAlert" class="alert alert-info d-none" role="alert">
+                        <i class="bi bi-info-circle"></i>
+                        <span id="closerDailyInfoMessage"></span>
+                        <button type="button" class="btn btn-sm btn-outline-primary ms-2" id="showCloserDailyFormBtn">
+                            Volver a llenar
+                        </button>
+                    </div>
+
+                    <!-- Collapsible Form Container -->
+                    <div id="closerDailyFormContainer" class="collapse">
+                        <div class="border rounded p-3 bg-light">
+                            <form id="closerDailyForm">
+                                <div id="closerDailyFieldsContainer">
+                                    <p class="text-center text-muted">Cargando formulario...</p>
+                                </div>
+                                <div class="mt-3 d-flex justify-content-end gap-2">
+                                    <button type="button" class="btn btn-secondary" id="cancelCloserDailyForm">
+                                        Cancelar
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" id="submitCloserDailyForm">
+                                        <i class="bi bi-send"></i> Enviar Formulario
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Button to show form (when collapsed and not submitted today) -->
+                    <div id="closerDailyShowFormContainer">
+                        <button type="button" class="btn btn-warning" id="openCloserDailyFormBtn">
+                            <i class="bi bi-file-text"></i> Llenar Closer Daily
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <h4 class="text-2xl font-semibold mb-4">Leads</h4>
@@ -92,30 +142,6 @@
         </div>
     </div>
 
-    <!-- Modal para llenar Closer Daily -->
-    <div class="modal fade" id="closerDailyModal" tabindex="-1" aria-labelledby="closerDailyModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="closerDailyModalLabel">Formulario: Closer Daily</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="closerDailyForm">
-                        <input type="hidden" id="closerFormLeadId" name="lead_id">
-                        <div id="closerDailyFieldsContainer">
-                            <p class="text-center">Cargando formulario...</p>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="submitCloserDailyForm">Enviar Formulario</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 @push('scripts')
 <script>
     $(document).on('click', '.view-logs-btn', function () {
@@ -178,6 +204,25 @@
             return '<span class="text-muted">-</span>';
         }
 
+        // Si es un array de comprobantes (venta con multiples archivos)
+        if (Array.isArray(archivoSoporte)) {
+            if (archivoSoporte.length === 0) {
+                return '<span class="text-muted">-</span>';
+            }
+
+            let buttons = '<div class="d-flex flex-wrap gap-1">';
+            archivoSoporte.forEach((archivo, index) => {
+                const url = archivo.url || archivo;
+                const name = archivo.name || `Archivo ${index + 1}`;
+                buttons += `<a href="${url}" target="_blank" class="btn btn-outline-primary btn-sm" title="${name}">
+                    <i class="bi bi-download"></i> ${archivoSoporte.length > 1 ? (index + 1) : 'Descargar'}
+                </a>`;
+            });
+            buttons += '</div>';
+            return buttons;
+        }
+
+        // Si es un solo archivo (string URL)
         return `<a href="${archivoSoporte}" target="_blank" class="btn btn-outline-primary btn-sm">
                     <i class="bi bi-download"></i> Descargar
                 </a>`;
@@ -190,12 +235,13 @@
         $('#modal-email').text($(this).data('email') || 'N/A');
         $('#modal-telefono').text($(this).data('telefono') || 'N/A');
         $('#modal-identificacion').text($(this).data('identificacion') || 'N/A');
-        $('#modal-domicilio').text($(this).data('domicilio') || 'N/A');
+        $('#modal-fuente').text($(this).data('fuente') || 'N/A');
 
         // Información de Pago
         $('#modal-metodo-pago').text($(this).data('metodo_pago') || 'N/A');
         $('#modal-tipo-acuerdo').text($(this).data('tipo_acuerdo') || 'N/A');
         $('#modal-tipo-contrato').text($(this).data('tipo_contrato') || 'N/A');
+        $('#modal-fecha-cierre').text($(this).data('fecha_cierre') || 'N/A');
 
         // Información del Contrato
         $('#modal-contrato').text($(this).data('contrato') || 'N/A');
@@ -203,12 +249,65 @@
         $('#modal-forma-pago').text($(this).data('forma_pago') || 'N/A');
         $('#modal-fecha-firma').text($(this).data('fecha_firma') || 'N/A');
 
+        // Información Financiera
+        const moneda = $(this).data('moneda') || 'USD';
+        $('#modal-monto-total').text('$' + ($(this).data('monto_total') || '0.00') + ' ' + moneda);
+        $('#modal-monto-final').text('$' + ($(this).data('monto_final') || '0.00') + ' ' + moneda);
+        $('#modal-descuento').text($(this).data('descuento') || 'Sin descuento');
+        $('#modal-total-pagado').text('$' + ($(this).data('total_pagado') || '0.00') + ' ' + moneda);
+
+        // Estado de Pago con badge
+        const estadoPago = $(this).data('estado_pago') || 'N/A';
+        const estadoPagoBadge = $(this).data('estado_pago_badge') || 'secondary';
+        $('#modal-estado-pago').html('<span class="badge bg-' + estadoPagoBadge + '">' + estadoPago + '</span>');
+
+        // Estado de Cuotas
+        const cuotas = $(this).data('cuotas') || [];
+        const cuotasContainer = $('#modal-cuotas-container');
+        cuotasContainer.empty();
+
+        if (cuotas.length > 0) {
+            let cuotasHtml = '<div class="table-responsive"><table class="table table-sm table-bordered">';
+            cuotasHtml += '<thead class="table-light"><tr>';
+            cuotasHtml += '<th>Cuota</th><th>Monto</th><th>Vencimiento</th><th>Estado</th><th>Pagado</th><th>Fecha Pago</th>';
+            cuotasHtml += '</tr></thead><tbody>';
+
+            cuotas.forEach(function(cuota) {
+                cuotasHtml += '<tr>';
+                cuotasHtml += '<td class="text-center">' + cuota.numero + '</td>';
+                cuotasHtml += '<td class="text-end">$' + cuota.monto + ' ' + cuota.moneda + '</td>';
+                cuotasHtml += '<td class="text-center">' + cuota.fecha_vencimiento + '</td>';
+                cuotasHtml += '<td class="text-center"><span class="badge bg-' + cuota.estado_badge + '">' + cuota.estado + '</span></td>';
+                cuotasHtml += '<td class="text-end">$' + cuota.monto_pagado + '</td>';
+                cuotasHtml += '<td class="text-center">' + (cuota.fecha_pago || '-') + '</td>';
+                cuotasHtml += '</tr>';
+            });
+
+            cuotasHtml += '</tbody></table></div>';
+            cuotasContainer.html(cuotasHtml);
+        } else {
+            cuotasContainer.html('<span class="text-muted">Sin cuotas registradas</span>');
+        }
+
         // Comentarios
         $('#modal-comentarios').text($(this).data('comentarios') || 'Sin comentarios');
 
-        // Comprobante
-        const comprobanteUrl = $(this).data('comprobante');
-        $('#btnDescargarComprobante').attr('href', comprobanteUrl);
+        // Comprobantes múltiples
+        const comprobantes = $(this).data('comprobantes') || [];
+        const comprobantesContainer = $('#modal-comprobantes-container');
+        comprobantesContainer.empty();
+
+        if (comprobantes.length > 0) {
+            comprobantes.forEach(function(comp, index) {
+                comprobantesContainer.append(`
+                    <a href="${comp.url}" target="_blank" class="btn btn-outline-success btn-sm me-2 mb-2">
+                        <i class="bi bi-download me-1"></i> ${comp.name || 'Comprobante ' + (index + 1)}
+                    </a>
+                `);
+            });
+        } else {
+            comprobantesContainer.html('<span class="text-muted">Sin comprobantes</span>');
+        }
 
         $('#saleInfoModal').modal('show');
     });
@@ -383,34 +482,98 @@
         });
 
         // ===================================================
-        // PATRÓN: Formulario Dinámico - Closer Daily
+        // CLOSER DAILY FORM - TOP OF PAGE
         // ===================================================
         let closerDailyFormData = null;
+        let closerDailyFormLoaded = false;
+        let hasSubmittedToday = false;
 
-        // Abrir modal y cargar formulario
-        $(document).on('click', '.fill-closer-daily-btn', function() {
-            const leadId = $(this).data('lead-id');
-            const leadName = $(this).data('lead-name');
-
-            $('#closerFormLeadId').val(leadId);
-            $('#closerDailyModalLabel').text(`Formulario: Closer Daily - ${leadName}`);
-            $('#closerDailyModal').modal('show');
-            $('#closerDailyFieldsContainer').html('<p class="text-center">Cargando formulario...</p>');
-
-            // Cargar el formulario del servidor
+        // Load Closer Daily status and form on page load
+        function loadCloserDailyForm() {
             $.get('/forms/closer-daily/render', function(response) {
                 if (response.success) {
                     closerDailyFormData = response.form;
+                    hasSubmittedToday = response.has_submitted_today;
+
+                    // Check if already submitted today
+                    if (response.has_submitted_today) {
+                        // Show info alert
+                        $('#closerDailyInfoAlert').removeClass('d-none');
+                        $('#closerDailyInfoMessage').text(
+                            `Ya completaste el formulario Closer Daily hoy a las ${response.today_submission_time}. Puedes volver a llenarlo si lo deseas.`
+                        );
+
+                        // Show "Completado" badge
+                        $('#closerDailyStatusBadge').html(
+                            `<span class="badge bg-success">
+                                <i class="bi bi-check-circle"></i> Completado hoy a las ${response.today_submission_time}
+                            </span>`
+                        );
+
+                        // Hide the "Llenar" button, keep form collapsed
+                        $('#closerDailyShowFormContainer').addClass('d-none');
+                        $('#closerDailyFormContainer').removeClass('show');
+                    } else {
+                        // Not submitted today - show form button
+                        $('#closerDailyInfoAlert').addClass('d-none');
+                        $('#closerDailyShowFormContainer').removeClass('d-none');
+
+                        // Show "Pendiente" badge
+                        $('#closerDailyStatusBadge').html(
+                            `<span class="badge bg-warning text-dark">
+                                <i class="bi bi-exclamation-circle"></i> Pendiente
+                            </span>`
+                        );
+                    }
+
+                    // Render form fields (but keep collapsed)
                     renderCloserFormFields(response.form.fields);
+                    closerDailyFormLoaded = true;
                 } else {
-                    $('#closerDailyFieldsContainer').html('<p class="text-danger text-center">Error al cargar el formulario.</p>');
+                    $('#closerDailyFieldsContainer').html(
+                        '<p class="text-danger text-center">Error al cargar el formulario.</p>'
+                    );
+                    $('#closerDailyStatusBadge').html(
+                        '<span class="badge bg-danger">Error</span>'
+                    );
                 }
             }).fail(function() {
-                $('#closerDailyFieldsContainer').html('<p class="text-danger text-center">Error al cargar el formulario.</p>');
+                $('#closerDailyFieldsContainer').html(
+                    '<p class="text-danger text-center">Error al cargar el formulario.</p>'
+                );
+                $('#closerDailyStatusBadge').html(
+                    '<span class="badge bg-danger">Error</span>'
+                );
             });
+        }
+
+        // Open form button click
+        $('#openCloserDailyFormBtn, #showCloserDailyFormBtn').on('click', function() {
+            $('#closerDailyFormContainer').collapse('show');
+            $('#closerDailyShowFormContainer').addClass('d-none');
+            $('#closerDailyInfoAlert').addClass('d-none');
         });
 
-        // Renderizar campos dinámicamente (usando la misma función que en traige)
+        // Cancel button click
+        $('#cancelCloserDailyForm').on('click', function() {
+            $('#closerDailyFormContainer').collapse('hide');
+
+            // Show appropriate UI based on submission status
+            if (hasSubmittedToday) {
+                // Already submitted today
+                $('#closerDailyInfoAlert').removeClass('d-none');
+            } else {
+                // Not submitted today
+                $('#closerDailyShowFormContainer').removeClass('d-none');
+            }
+
+            // Reset form
+            $('#closerDailyForm')[0].reset();
+            // Reset star ratings
+            $('.star').css('color', '#ccc');
+        });
+
+        // Render form fields
         function renderCloserFormFields(fields) {
             let html = '';
 
@@ -422,7 +585,7 @@
                 }
                 html += `</label>`;
 
-                // Generar campo según tipo
+                // Generate field by type
                 switch(field.field_type) {
                     case 'text':
                     case 'email':
@@ -447,7 +610,7 @@
 
                     case 'select':
                         html += `<select class="form-select" id="field_${field.field_name}" name="${field.field_name}" ${field.is_required ? 'required' : ''}>`;
-                        html += `<option value="">Seleccione una opción</option>`;
+                        html += `<option value="">Seleccione una opcion</option>`;
                         if (field.options && Array.isArray(field.options)) {
                             field.options.forEach(opt => {
                                 html += `<option value="${opt}">${opt}</option>`;
@@ -495,7 +658,7 @@
                         const stars = field.options?.max || 5;
                         html += `<div class="star-rating d-flex gap-2">`;
                         for (let i = 1; i <= stars; i++) {
-                            html += `<span class="star" data-field="${field.field_name}" data-value="${i}" style="font-size: 24px; cursor: pointer; color: #ccc;">★</span>`;
+                            html += `<span class="star" data-field="${field.field_name}" data-value="${i}" style="font-size: 24px; cursor: pointer; color: #ccc;">&#9733;</span>`;
                         }
                         html += `</div>`;
                         html += `<input type="hidden" name="${field.field_name}" id="field_${field.field_name}" ${field.is_required ? 'required' : ''}>`;
@@ -511,13 +674,13 @@
 
             $('#closerDailyFieldsContainer').html(html);
 
-            // Activar funcionalidad de estrellas
-            $('.star').on('click', function() {
+            // Activate star rating functionality
+            $('#closerDailyFieldsContainer').on('click', '.star', function() {
                 const fieldName = $(this).data('field');
                 const value = $(this).data('value');
                 $(`input[name="${fieldName}"]`).val(value);
 
-                // Colorear estrellas
+                // Color stars
                 $(this).parent().find('.star').each(function(index) {
                     if (index < value) {
                         $(this).css('color', '#ffc107');
@@ -528,17 +691,23 @@
             });
         }
 
-        // Enviar formulario
-        $('#submitCloserDailyForm').on('click', function() {
-            const formData = new FormData($('#closerDailyForm')[0]);
+        // Submit form
+        $('#closerDailyForm').on('submit', function(e) {
+            e.preventDefault();
 
-            // Validar campos requeridos
-            if (!$('#closerDailyForm')[0].checkValidity()) {
-                $('#closerDailyForm')[0].reportValidity();
+            const formData = new FormData(this);
+
+            // Validate required fields
+            if (!this.checkValidity()) {
+                this.reportValidity();
                 return;
             }
 
-            // Enviar AJAX
+            // Disable submit button
+            $('#submitCloserDailyForm').prop('disabled', true).html(
+                '<span class="spinner-border spinner-border-sm"></span> Enviando...'
+            );
+
             $.ajax({
                 url: '/forms/closer-daily/submit',
                 method: 'POST',
@@ -555,10 +724,15 @@
                             title: 'Formulario Enviado',
                             text: response.message,
                             showConfirmButton: false,
-                            timer: 1500
+                            timer: 2000
                         }).then(() => {
-                            $('#closerDailyModal').modal('hide');
+                            // Reload the form status
+                            loadCloserDailyForm();
+
+                            // Collapse the form
+                            $('#closerDailyFormContainer').collapse('hide');
                             $('#closerDailyForm')[0].reset();
+                            $('.star').css('color', '#ccc');
                         });
                     } else {
                         Swal.fire('Error', response.message, 'error');
@@ -575,9 +749,17 @@
                         text: errorMessage
                     });
                     console.error(xhr.responseText);
+                },
+                complete: function() {
+                    $('#submitCloserDailyForm').prop('disabled', false).html(
+                        '<i class="bi bi-send"></i> Enviar Formulario'
+                    );
                 }
             });
         });
+
+        // Load form on page ready
+        loadCloserDailyForm();
     });
 </script>
 @endpush

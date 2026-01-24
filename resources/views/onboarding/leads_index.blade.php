@@ -16,6 +16,7 @@
                                     <tr class="border-b border-gray-300">
                                         <th class="px-6 py-3" data-priority="1">Acciones</th>
                                         <th class="px-6 py-3">Estado Onboarding</th>
+                                        <th class="px-6 py-3">Estado Pago</th>
                                         <th class="px-6 py-3">Próxima Llamada</th>
                                         <th class="px-6 py-3">Nombre</th>
                                         <th class="px-6 py-3">Email</th>
@@ -227,16 +228,22 @@
                     searchable: false,
                     className: 'noVis'
                 },
-                { 
-                    data: 'onboarding_status', 
+                {
+                    data: 'onboarding_status',
                     name: 'onboarding_status',
-                    orderable: false, 
+                    orderable: false,
                     searchable: false
                 },
-                { 
-                    data: 'next_call', 
+                {
+                    data: 'payment_status',
+                    name: 'payment_status',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'next_call',
                     name: 'next_call',
-                    orderable: false, 
+                    orderable: false,
                     searchable: false
                 },
                 { data: 'nombre', name: 'nombre' },
@@ -362,12 +369,13 @@
             $('#modal-email').text($(this).data('email') || 'N/A');
             $('#modal-telefono').text($(this).data('telefono') || 'N/A');
             $('#modal-identificacion').text($(this).data('identificacion') || 'N/A');
-            $('#modal-domicilio').text($(this).data('domicilio') || 'N/A');
+            $('#modal-fuente').text($(this).data('fuente') || 'N/A');
 
             // Información de Pago
             $('#modal-metodo-pago').text($(this).data('metodo_pago') || 'N/A');
             $('#modal-tipo-acuerdo').text($(this).data('tipo_acuerdo') || 'N/A');
             $('#modal-tipo-contrato').text($(this).data('tipo_contrato') || 'N/A');
+            $('#modal-fecha-cierre').text($(this).data('fecha_cierre') || 'N/A');
 
             // Información del Contrato
             $('#modal-contrato').text($(this).data('contrato') || 'N/A');
@@ -375,12 +383,65 @@
             $('#modal-forma-pago').text($(this).data('forma_pago') || 'N/A');
             $('#modal-fecha-firma').text($(this).data('fecha_firma') || 'N/A');
 
+            // Información Financiera
+            const moneda = $(this).data('moneda') || 'USD';
+            $('#modal-monto-total').text('$' + ($(this).data('monto_total') || '0.00') + ' ' + moneda);
+            $('#modal-monto-final').text('$' + ($(this).data('monto_final') || '0.00') + ' ' + moneda);
+            $('#modal-descuento').text($(this).data('descuento') || 'Sin descuento');
+            $('#modal-total-pagado').text('$' + ($(this).data('total_pagado') || '0.00') + ' ' + moneda);
+
+            // Estado de Pago con badge
+            const estadoPago = $(this).data('estado_pago') || 'N/A';
+            const estadoPagoBadge = $(this).data('estado_pago_badge') || 'secondary';
+            $('#modal-estado-pago').html('<span class="badge bg-' + estadoPagoBadge + '">' + estadoPago + '</span>');
+
+            // Estado de Cuotas
+            const cuotas = $(this).data('cuotas') || [];
+            const cuotasContainer = $('#modal-cuotas-container');
+            cuotasContainer.empty();
+
+            if (cuotas.length > 0) {
+                let cuotasHtml = '<div class="table-responsive"><table class="table table-sm table-bordered">';
+                cuotasHtml += '<thead class="table-light"><tr>';
+                cuotasHtml += '<th>Cuota</th><th>Monto</th><th>Vencimiento</th><th>Estado</th><th>Pagado</th><th>Fecha Pago</th>';
+                cuotasHtml += '</tr></thead><tbody>';
+
+                cuotas.forEach(function(cuota) {
+                    cuotasHtml += '<tr>';
+                    cuotasHtml += '<td class="text-center">' + cuota.numero + '</td>';
+                    cuotasHtml += '<td class="text-end">$' + cuota.monto + ' ' + cuota.moneda + '</td>';
+                    cuotasHtml += '<td class="text-center">' + cuota.fecha_vencimiento + '</td>';
+                    cuotasHtml += '<td class="text-center"><span class="badge bg-' + cuota.estado_badge + '">' + cuota.estado + '</span></td>';
+                    cuotasHtml += '<td class="text-end">$' + cuota.monto_pagado + '</td>';
+                    cuotasHtml += '<td class="text-center">' + (cuota.fecha_pago || '-') + '</td>';
+                    cuotasHtml += '</tr>';
+                });
+
+                cuotasHtml += '</tbody></table></div>';
+                cuotasContainer.html(cuotasHtml);
+            } else {
+                cuotasContainer.html('<span class="text-muted">Sin cuotas registradas</span>');
+            }
+
             // Comentarios
             $('#modal-comentarios').text($(this).data('comentarios') || 'Sin comentarios');
 
-            // Comprobante
-            const comprobanteUrl = $(this).data('comprobante');
-            $('#btnDescargarComprobante').attr('href', comprobanteUrl);
+            // Comprobantes múltiples
+            const comprobantes = $(this).data('comprobantes') || [];
+            const comprobantesContainer = $('#modal-comprobantes-container');
+            comprobantesContainer.empty();
+
+            if (comprobantes.length > 0) {
+                comprobantes.forEach(function(comp, index) {
+                    comprobantesContainer.append(`
+                        <a href="${comp.url}" target="_blank" class="btn btn-outline-success btn-sm me-2 mb-2">
+                            <i class="bi bi-download me-1"></i> ${comp.name || 'Comprobante ' + (index + 1)}
+                        </a>
+                    `);
+                });
+            } else {
+                comprobantesContainer.html('<span class="text-muted">Sin comprobantes</span>');
+            }
 
             $('#saleInfoModal').modal('show');
         });
@@ -876,6 +937,25 @@
                 return '<span class="text-muted">-</span>';
             }
 
+            // Si es un array de comprobantes (venta con multiples archivos)
+            if (Array.isArray(archivoSoporte)) {
+                if (archivoSoporte.length === 0) {
+                    return '<span class="text-muted">-</span>';
+                }
+
+                let buttons = '<div class="d-flex flex-wrap gap-1">';
+                archivoSoporte.forEach((archivo, index) => {
+                    const url = archivo.url || archivo;
+                    const name = archivo.name || `Archivo ${index + 1}`;
+                    buttons += `<a href="${url}" target="_blank" class="btn btn-outline-primary btn-sm" title="${name}">
+                        <i class="bi bi-download"></i> ${archivoSoporte.length > 1 ? (index + 1) : 'Descargar'}
+                    </a>`;
+                });
+                buttons += '</div>';
+                return buttons;
+            }
+
+            // Si es un solo archivo (string URL)
             return `<a href="${archivoSoporte}" target="_blank" class="btn btn-outline-primary btn-sm">
                         <i class="bi bi-download"></i> Descargar
                     </a>`;

@@ -352,6 +352,18 @@ class FormSubmissionController extends Controller
             ], 404);
         }
 
+        // Check if user has submitted today
+        $todaySubmission = FormSubmission::where('form_id', $form->id)
+            ->where('user_id', Auth::id())
+            ->whereDate('submitted_at', today())
+            ->latest('submitted_at')
+            ->first();
+
+        $hasSubmittedToday = $todaySubmission !== null;
+        $todaySubmissionTime = $hasSubmittedToday
+            ? $todaySubmission->submitted_at->format('H:i')
+            : null;
+
         return response()->json([
             'success' => true,
             'form' => [
@@ -370,7 +382,9 @@ class FormSubmissionController extends Controller
                         'help_text' => $field->help_text,
                     ];
                 })
-            ]
+            ],
+            'has_submitted_today' => $hasSubmittedToday,
+            'today_submission_time' => $todaySubmissionTime,
         ]);
     }
 

@@ -32,7 +32,7 @@
     <a href="/leads"
     class="nav-link mb-2 d-flex align-items-center gap-2 {{ request()->is('leads*') && !request()->is('onboarding/leads*') ? 'active' : 'text-dark' }}">
         <i class="bi bi-person-plus-fill"></i>
-        <span>Leads</span>
+        <span>Closer</span>
     </a>
 
     <a href="/llamadas"
@@ -108,6 +108,53 @@
         <i class="bi bi-ui-checks-grid"></i>
         <span>Formularios</span>
     </a>
+@endif
+
+@if (auth()->user()->getRoleNames()->first() == 'admin' || auth()->user()->getRoleNames()->first() == 'finanzas')
+    <!-- Finanzas Dropdown -->
+    <div class="nav-item dropdown mb-2">
+        <a class="nav-link d-flex align-items-center gap-2 dropdown-toggle {{ request()->is('finanzas*') ? 'active' : 'text-dark' }}"
+           href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-cash-coin"></i>
+            <span>Finanzas</span>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a class="dropdown-item d-flex align-items-center gap-2 {{ request()->is('finanzas/dashboard*') ? 'active' : '' }}"
+                   href="/finanzas/dashboard">
+                    <i class="bi bi-graph-up"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item d-flex align-items-center gap-2 {{ request()->is('finanzas/cuotas*') ? 'active' : '' }}"
+                   href="/finanzas/cuotas">
+                    <i class="bi bi-calendar-check"></i>
+                    <span>Cuotas</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+@endif
+
+@if (auth()->user()->getRoleNames()->first() == 'admin')
+    <!-- Configuracion Dropdown -->
+    <div class="nav-item dropdown mb-2">
+        <a class="nav-link d-flex align-items-center gap-2 dropdown-toggle {{ request()->is('configuration*') ? 'active' : 'text-dark' }}"
+           href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-gear-fill"></i>
+            <span>Configuracion</span>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a class="dropdown-item d-flex align-items-center gap-2 {{ request()->is('configuration/prices*') ? 'active' : '' }}"
+                   href="/configuration/prices">
+                    <i class="bi bi-currency-dollar"></i>
+                    <span>Precios</span>
+                </a>
+            </li>
+        </ul>
+    </div>
 @endif
 
         {{-- Agrega más enlaces aquí si lo deseas --}}

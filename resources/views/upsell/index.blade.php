@@ -206,12 +206,13 @@
             $('#modal-email').text($(this).data('email') || 'N/A');
             $('#modal-telefono').text($(this).data('telefono') || 'N/A');
             $('#modal-identificacion').text($(this).data('identificacion') || 'N/A');
-            $('#modal-domicilio').text($(this).data('domicilio') || 'N/A');
+            $('#modal-fuente').text($(this).data('fuente') || 'N/A');
 
             // Información de Pago
             $('#modal-metodo-pago').text($(this).data('metodo_pago') || 'N/A');
             $('#modal-tipo-acuerdo').text($(this).data('tipo_acuerdo') || 'N/A');
             $('#modal-tipo-contrato').text($(this).data('tipo_contrato') || 'N/A');
+            $('#modal-fecha-cierre').text($(this).data('fecha_cierre') || 'N/A');
 
             // Información del Contrato
             $('#modal-contrato').text($(this).data('contrato') || 'N/A');
@@ -222,9 +223,22 @@
             // Comentarios
             $('#modal-comentarios').text($(this).data('comentarios') || 'Sin comentarios');
 
-            // Comprobante
-            const comprobanteUrl = $(this).data('comprobante');
-            $('#btnDescargarComprobante').attr('href', comprobanteUrl);
+            // Comprobantes múltiples
+            const comprobantes = $(this).data('comprobantes') || [];
+            const comprobantesContainer = $('#modal-comprobantes-container');
+            comprobantesContainer.empty();
+
+            if (comprobantes.length > 0) {
+                comprobantes.forEach(function(comp, index) {
+                    comprobantesContainer.append(`
+                        <a href="${comp.url}" target="_blank" class="btn btn-outline-success btn-sm me-2 mb-2">
+                            <i class="bi bi-download me-1"></i> ${comp.name || 'Comprobante ' + (index + 1)}
+                        </a>
+                    `);
+                });
+            } else {
+                comprobantesContainer.html('<span class="text-muted">Sin comprobantes</span>');
+            }
 
             $('#saleInfoModal').modal('show');
         });
@@ -353,6 +367,25 @@
                 return '<span class="text-muted">-</span>';
             }
 
+            // Si es un array de comprobantes (venta con multiples archivos)
+            if (Array.isArray(archivoSoporte)) {
+                if (archivoSoporte.length === 0) {
+                    return '<span class="text-muted">-</span>';
+                }
+
+                let buttons = '<div class="d-flex flex-wrap gap-1">';
+                archivoSoporte.forEach((archivo, index) => {
+                    const url = archivo.url || archivo;
+                    const name = archivo.name || `Archivo ${index + 1}`;
+                    buttons += `<a href="${url}" target="_blank" class="btn btn-outline-primary btn-sm" title="${name}">
+                        <i class="bi bi-download"></i> ${archivoSoporte.length > 1 ? (index + 1) : 'Descargar'}
+                    </a>`;
+                });
+                buttons += '</div>';
+                return buttons;
+            }
+
+            // Si es un solo archivo (string URL)
             return `<a href="${archivoSoporte}" target="_blank" class="btn btn-outline-primary btn-sm">
                         <i class="bi bi-download"></i> Descargar
                     </a>`;

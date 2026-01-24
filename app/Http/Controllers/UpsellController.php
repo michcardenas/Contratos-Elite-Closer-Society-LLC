@@ -28,7 +28,7 @@ class UpsellController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = Sale::with(['lead', 'upsellUserPendiente', 'upsellUserAprobado'])
+            $query = Sale::with(['lead', 'upsellUserPendiente', 'upsellUserAprobado', 'paymentProofs', 'contractTemplate'])
                 ->whereNotNull('upsell')
                 ->orderByDesc('upsell_fecha_pendiente');
 
@@ -41,6 +41,21 @@ class UpsellController extends Controller
                 ->addColumn('action', function ($sale) {
                     $buttons = '<div class="d-flex justify-content-start gap-1">';
 
+                    // Preparar comprobantes como JSON
+                    $comprobantes = $sale->paymentProofs->map(function($proof) {
+                        return [
+                            'url' => asset($proof->file_path),
+                            'name' => $proof->original_name ?? basename($proof->file_path)
+                        ];
+                    })->toArray();
+                    // Si no hay en la nueva tabla, usar el comprobante principal
+                    if (empty($comprobantes) && $sale->comprobante_pago_path) {
+                        $comprobantes = [[
+                            'url' => asset($sale->comprobante_pago_path),
+                            'name' => basename($sale->comprobante_pago_path)
+                        ]];
+                    }
+
                     // Botón para ver detalles de venta
                     $buttons .= '<button type="button" class="btn btn-outline-primary btn-sm view-sale-btn"
                         data-lead-id="' . $sale->lead_id . '"
@@ -49,12 +64,13 @@ class UpsellController extends Controller
                         data-email="' . e($sale->email_cliente) . '"
                         data-telefono="' . e($sale->telefono_cliente) . '"
                         data-identificacion="' . e($sale->identificacion_personal) . '"
-                        data-domicilio="' . e($sale->domicilio) . '"
+                        data-fuente="' . e($sale->fuente) . '"
                         data-metodo_pago="' . e($sale->metodo_pago) . '"
                         data-tipo_acuerdo="' . e($sale->tipo_acuerdo) . '"
                         data-tipo_contrato="' . e($sale->tipo_contrato) . '"
+                        data-fecha_cierre="' . ($sale->fecha_cierre ? $sale->fecha_cierre->format('d/m/Y') : 'N/A') . '"
                         data-comentarios="' . e($sale->comentarios) . '"
-                        data-comprobante="' . asset($sale->comprobante_pago_path) . '"
+                        data-comprobantes=\'' . json_encode($comprobantes) . '\'
                         data-contrato="' . e($sale->contractTemplate->name ?? 'N/A') . '"
                         data-contrato_estado="' . ($sale->contract_approved ? 'Aprobado' : 'Pendiente') . '"
                         data-forma_pago="' . e($sale->contract_data['forma_de_pago'] ?? 'N/A') . '"
@@ -202,7 +218,7 @@ class UpsellController extends Controller
      */
     public function getLogs($saleId)
     {
-        $sale = Sale::with(['lead.onboardingCalls'])->findOrFail($saleId);
+        $sale = Sale::with(['lead.onboardingCalls', 'paymentProofs'])->findOrFail($saleId);
         $lead = $sale->lead;
 
         // Obtener todos los logs relacionados con este lead
@@ -236,7 +252,29 @@ class UpsellController extends Controller
         // Ordenar todos los logs por fecha descendente
         $allLogs = $allLogs->sortByDesc('created_at');
 
-        return response()->json($allLogs->map(function ($log) {
+        // Preparar comprobantes multiples para logs de venta
+        $paymentProofs = $sale->paymentProofs->map(function($proof) {
+            return [
+                'url' => asset($proof->file_path),
+                'name' => $proof->original_name ?? basename($proof->file_path)
+            ];
+        })->toArray();
+        // Fallback al comprobante principal si no hay en la tabla nueva
+        if (empty($paymentProofs) && $sale->comprobante_pago_path) {
+            $paymentProofs = [[
+                'url' => asset($sale->comprobante_pago_path),
+                'name' => basename($sale->comprobante_pago_path)
+            ]];
+        }
+
+        return response()->json($allLogs->map(function ($log) use ($paymentProofs) {
+            $archivos = $log->archivo_soporte;
+
+            // Para logs de venta, incluir todos los comprobantes
+            if ($log->tipo_log === 'venta' && !empty($paymentProofs)) {
+                $archivos = $paymentProofs;
+            }
+
             return [
                 'valor_viejo' => $log->valor_viejo ?? 'N/A',
                 'valor_nuevo' => $log->valor_nuevo ?? 'N/A',
@@ -244,7 +282,7 @@ class UpsellController extends Controller
                 'usuario' => $log->usuario->name ?? 'Usuario eliminado',
                 'fecha' => $log->created_at->format('d/m/Y H:i:s'),
                 'tipo' => $this->getLogType($log->tabla, $log->tipo_log ?? null),
-                'archivo_soporte' => $log->archivo_soporte,
+                'archivo_soporte' => $archivos,
             ];
         })->values());
     }

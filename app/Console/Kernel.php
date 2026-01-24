@@ -15,7 +15,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // Verificar cuotas vencidas diariamente a las 8:00 AM
+        $schedule->command('finance:check-overdue')->dailyAt('08:00');
+
+        // Enviar recordatorios de cuotas proximas a vencer diariamente a las 9:00 AM
+        $schedule->command('finance:send-reminders')->dailyAt('09:00');
     }
 
     /**
