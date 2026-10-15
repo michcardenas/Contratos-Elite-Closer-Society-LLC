@@ -134,7 +134,7 @@ class FinalContractTemplatesSeeder extends Seeder
     </div>
 
     <div class="section">
-        El presente Acuerdo de Formación (en adelante: "Acuerdo") se celebra entre <strong>UNO X CIENTO LLC</strong>, una sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <span class="field">{nombre}</span> DNI <span class="field">{dni}</span> (en lo sucesivo: "Aprendiz"). Ambos acuerdan que los siguientes términos y condiciones se aplicarán a los servicios prestados en virtud del presente Contrato.
+        El presente Acuerdo de Formación (en adelante: "Acuerdo") se celebra entre <strong>Elite Closer Society LLC</strong>, una sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <span class="field">{nombre}</span> DNI <span class="field">{dni}</span> (en lo sucesivo: "Aprendiz"). Ambos acuerdan que los siguientes términos y condiciones se aplicarán a los servicios prestados en virtud del presente Contrato.
     </div>
 
     <div class="article-title">
@@ -171,7 +171,7 @@ class FinalContractTemplatesSeeder extends Seeder
     </div>
 
     <div class="subsection">
-        <strong>1.8</strong> "Creación de una cuenta" se refiere al proceso de creación de una cuenta en skool la plataforma de UNO X CIENTO LLC.
+        <strong>1.8</strong> "Creación de una cuenta" se refiere al proceso de creación de una cuenta en skool la plataforma de Elite Closer Society LLC.
     </div>
 
     <div class="article-title">
@@ -179,7 +179,7 @@ class FinalContractTemplatesSeeder extends Seeder
     </div>
 
     <div class="subsection">
-        <strong>2.1</strong> Por la presente, UNO X CIENTO LLC concede al Aprendiz, durante el Periodo de Vigencia, una licencia no exclusiva, intransferible (a menos que se acuerde lo contrario por escrito) que le otorga el derecho a acceder y utilizar el material del curso en línea, sujeto a los términos de este Acuerdo y únicamente para fines internos dentro de la propia empresa del Aprendiz. Durante la vigencia, El Aprendiz también podrá hacer uso del Servicio de Coaching.
+        <strong>2.1</strong> Por la presente, Elite Closer Society LLC concede al Aprendiz, durante el Periodo de Vigencia, una licencia no exclusiva, intransferible (a menos que se acuerde lo contrario por escrito) que le otorga el derecho a acceder y utilizar el material del curso en línea, sujeto a los términos de este Acuerdo y únicamente para fines internos dentro de la propia empresa del Aprendiz. Durante la vigencia, El Aprendiz también podrá hacer uso del Servicio de Coaching.
     </div>
 
     <div class="subsection">
@@ -195,7 +195,7 @@ class FinalContractTemplatesSeeder extends Seeder
     </div>
 
     <div class="subsection">
-        <strong>2.5</strong> La licencia concedida al Aprendiz en la Sección 2.1 anterior está sujeta a la condición de que el Aprendiz no (y no permite a ningún afiliado o tercero) (a) copie, comparta, modifique, adapte, manipule o realice cualquier otro cambio en el material de formación o en cualquier parte del mismo; (b) escribir o desarrollar cualquier trabajo derivado basado en los Servicios o crear "enlaces" de Internet a/desde el Material de Formación o las Sesiones de Preguntas y Respuestas (c) vender, revender, distribuir, alojar, arrendar, alquilar, conceder licencias o sublicenciar, total o parcialmente, el material de formación o las sesiones de preguntas y respuestas, prestar servicios de procesamiento a terceros, o utilizarlos de cualquier otro modo como "oficina de servicios (d) Permitir el acceso, facilitar, divulgar o poner a disposición de terceros la propiedad intelectual de UNO X CIENTO LLC; (e) borrar, alterar o eliminar cualquier aviso de propiedad o propiedad intelectual del Material de Formación (f) utilizar o copiar de cualquier otro modo, salvo en los casos expresamente permitidos en el presente.
+        <strong>2.5</strong> La licencia concedida al Aprendiz en la Sección 2.1 anterior está sujeta a la condición de que el Aprendiz no (y no permite a ningún afiliado o tercero) (a) copie, comparta, modifique, adapte, manipule o realice cualquier otro cambio en el material de formación o en cualquier parte del mismo; (b) escribir o desarrollar cualquier trabajo derivado basado en los Servicios o crear "enlaces" de Internet a/desde el Material de Formación o las Sesiones de Preguntas y Respuestas (c) vender, revender, distribuir, alojar, arrendar, alquilar, conceder licencias o sublicenciar, total o parcialmente, el material de formación o las sesiones de preguntas y respuestas, prestar servicios de procesamiento a terceros, o utilizarlos de cualquier otro modo como "oficina de servicios (d) Permitir el acceso, facilitar, divulgar o poner a disposición de terceros la propiedad intelectual de Elite Closer Society LLC; (e) borrar, alterar o eliminar cualquier aviso de propiedad o propiedad intelectual del Material de Formación (f) utilizar o copiar de cualquier otro modo, salvo en los casos expresamente permitidos en el presente.
     </div>
 
     <div class="article-title">
@@ -210,10 +210,6 @@ class FinalContractTemplatesSeeder extends Seeder
         <strong>3.2</strong> Debido a la naturaleza instantáneamente consumible, compartible y transferible del material de formación, no se ofrecerán reembolsos por el material de formación. Una vez concedido el acceso al material de formación el presente Acuerdo NO podrá ser cancelado.
     </div>
 
-    <div class="subsection">
-        <strong>3.3</strong> Se pueden ofrecer reembolsos por los servicios ofrecidos en las sesiones de preguntas y respuestas en directo en la medida en que no se haya reservado o utilizado ninguna capacidad de servicio.
-    </div>
-
     <div class="article-title">
         <strong>Artículo 4. Forma de pago</strong>
     </div>
@@ -223,7 +219,7 @@ class FinalContractTemplatesSeeder extends Seeder
     </div>
 
     <div class="subsection">
-        <strong>4.2</strong> Cualquier devolución de cargo a través de sistemas como Visa, MasterCard y PayPal se considerará fraudulenta y será recurrida, a menos que (i) se haya notificado previamente con al menos 5 días laborables de antelación el motivo por el que UNO X CIENTO LLC no haya cumplido con sus obligaciones contractuales, y (ii) se haya dado a la empresa la oportunidad de subsanar el incumplimiento del contrato si en algún caso se ha constatado la falta de cumplimiento de las obligaciones contractuales. Se considerará que el Aprendiz es responsable de todos los costes, como las fluctuaciones del tipo de cambio y los intereses legales, derivados de la anulación y el recurso del contracargo.
+        <strong>4.2</strong> Cualquier devolución de cargo a través de sistemas como Visa, MasterCard y PayPal se considerará fraudulenta y será recurrida, a menos que (i) se haya notificado previamente con al menos 5 días laborables de antelación el motivo por el que Elite Closer Society LLC no haya cumplido con sus obligaciones contractuales, y (ii) se haya dado a la empresa la oportunidad de subsanar el incumplimiento del contrato si en algún caso se ha constatado la falta de cumplimiento de las obligaciones contractuales. Se considerará que el Aprendiz es responsable de todos los costes, como las fluctuaciones del tipo de cambio y los intereses legales, derivados de la anulación y el recurso del contracargo.
     </div>
 
     <div class="article-title">
@@ -243,7 +239,7 @@ class FinalContractTemplatesSeeder extends Seeder
     </div>
 
     <div class="subsection">
-        <strong>6.1</strong> El Cliente reconoce y acepta que los materiales y servicios proporcionados por UNO X CIENTO LLC son "tal cual". UNO X CIENTO LLC no ha hecho ninguna representación, y ha renunciado expresamente, en la medida máxima permitida por la ley aplicable, a todas las garantías o representaciones de cualquier tipo o naturaleza, ya sea expresa, implícita o estatutaria, en cuanto al material de formación, sesiones de preguntas y respuestas, y cualquier producto o servicio auxiliar o relacionado, incluyendo, cualquier garantía de comerciabilidad, idoneidad para un propósito particular, título, uso o no infracción de derechos de terceros. UNO X CIENTO LLC no garantiza que: (i) el material de formación satisfaga las necesidades y/o expectativas del Aprendiz; (ii) pueda acceder a las sesiones de preguntas y respuestas en directo sin interrupciones; (iii) el empleo ofrecido satisfaga las necesidades y/o expectativas del Aprendiz según se indica en el punto 3.2.
+        <strong>6.1</strong> El Cliente reconoce y acepta que los materiales y servicios proporcionados por Elite Closer Society LLC son "tal cual". Elite Closer Society LLC no ha hecho ninguna representación, y ha renunciado expresamente, en la medida máxima permitida por la ley aplicable, a todas las garantías o representaciones de cualquier tipo o naturaleza, ya sea expresa, implícita o estatutaria, en cuanto al material de formación, sesiones de preguntas y respuestas, y cualquier producto o servicio auxiliar o relacionado, incluyendo, cualquier garantía de comerciabilidad, idoneidad para un propósito particular, título, uso o no infracción de derechos de terceros. Elite Closer Society LLC no garantiza que: (i) el material de formación satisfaga las necesidades y/o expectativas del Aprendiz; (ii) pueda acceder a las sesiones de preguntas y respuestas en directo sin interrupciones; (iii) el empleo ofrecido satisfaga las necesidades y/o expectativas del Aprendiz según se indica en el punto 3.2.
     </div>
 
     <div class="article-title">
@@ -251,7 +247,7 @@ class FinalContractTemplatesSeeder extends Seeder
     </div>
 
     <div class="subsection">
-        <strong>7.1</strong> UNO X CIENTO LLC podrá rescindir el contrato en cualquier momento sin intervención judicial y con efecto inmediato si no se subsana cualquier incumplimiento del presente contrato en el plazo de 30 días.
+        <strong>7.1</strong> Elite Closer Society LLC podrá rescindir el contrato en cualquier momento sin intervención judicial y con efecto inmediato si no se subsana cualquier incumplimiento del presente contrato en el plazo de 30 días.
     </div>
 
     <div class="subsection">
@@ -259,7 +255,7 @@ class FinalContractTemplatesSeeder extends Seeder
     </div>
 
     <div class="subsection">
-        <strong>7.3</strong> El Coach podrá rescindir el Contrato y retirar el acceso al programa sin previo aviso y sin derecho a reembolso en caso de: (i) El Aprendiz tiene su propia oferta de coaching para Closer de ventas y el Coach lo descubra. (ii) El Aprendiz ha copiado la información o los recursos de UNO X CIENTO LLC (iii) El Aprendiz está haciendo promoción de ventas dentro de la comunidad/discordia privada de los clientes para ganar clientes para su propio beneficio.
+        <strong>7.3</strong> El Coach podrá rescindir el Contrato y retirar el acceso al programa sin previo aviso y sin derecho a reembolso en caso de: (i) El Aprendiz tiene su propia oferta de coaching para Closer de ventas y el Coach lo descubra. (ii) El Aprendiz ha copiado la información o los recursos de Elite Closer Society LLC (iii) El Aprendiz está haciendo promoción de ventas dentro de la comunidad/discordia privada de los clientes para ganar clientes para su propio beneficio.
     </div>
 
     <div class="article-title">
@@ -279,7 +275,7 @@ class FinalContractTemplatesSeeder extends Seeder
     </div>
 
     <div class="subsection">
-        <strong>9.2</strong> El presente Acuerdo constituye el acuerdo completo entre las Partes con respecto al servicio de formación, el material de formación y las sesiones de preguntas y respuestas; sustituye a todos los acuerdos anteriores o contemporáneos con respecto a dicho asunto. Ninguna enmienda o modificación del presente Acuerdo será vinculante a menos que se realice por escrito y esté firmada por UNO X CIENTO LLC. El presente Acuerdo sustituye a cualquier cláusula contradictoria contenida en el Acuerdo de confidencialidad de datos.
+        <strong>9.2</strong> El presente Acuerdo constituye el acuerdo completo entre las Partes con respecto al servicio de formación, el material de formación y las sesiones de preguntas y respuestas; sustituye a todos los acuerdos anteriores o contemporáneos con respecto a dicho asunto. Ninguna enmienda o modificación del presente Acuerdo será vinculante a menos que se realice por escrito y esté firmada por Elite Closer Society LLC. El presente Acuerdo sustituye a cualquier cláusula contradictoria contenida en el Acuerdo de confidencialidad de datos.
     </div>
 
     <div class="subsection">
@@ -308,7 +304,7 @@ class FinalContractTemplatesSeeder extends Seeder
         </div>
 
         <div class="section">
-            UNO X CIENTO LLC, sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <span class="field">{nombre}</span> DNI <span class="field">{dni}</span> (en lo sucesivo: "Aprendiz") acuerdan lo siguiente:
+            Elite Closer Society LLC, sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <span class="field">{nombre}</span> DNI <span class="field">{dni}</span> (en lo sucesivo: "Aprendiz") acuerdan lo siguiente:
         </div>
 
         <div class="subsection">

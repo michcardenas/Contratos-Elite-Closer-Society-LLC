@@ -71,7 +71,7 @@ class ContractTemplatesSeeder extends Seeder
     <h1>Acuerdo de Formación Personalizada</h1>
 
     <p><strong>PARTES:</strong></p>
-    <p>El presente Acuerdo de Formación (en adelante: "Acuerdo") se celebra entre UNO X CIENTO LLC, una sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz"). Ambos acuerdan que los siguientes términos y condiciones se aplicarán a los servicios prestados en virtud del presente Contrato.</p>
+    <p>El presente Acuerdo de Formación (en adelante: "Acuerdo") se celebra entre Elite Closer Society LLC, una sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz"). Ambos acuerdan que los siguientes términos y condiciones se aplicarán a los servicios prestados en virtud del presente Contrato.</p>
 
     <h2>TÉRMINOS Y CONDICIONES Artículo 1. Definiciones</h2>
     <p><strong>1.1</strong> "Servicio de formación" o "Formación" o "Coaching" se refiere al servicio de la empresa de "Closer de ventas/Cerrador de ventas" que proporciona el uso y acceso al material de formación en línea, que se pone a disposición del Aprendiz en base a un plazo de uso.</p>
@@ -79,7 +79,7 @@ class ContractTemplatesSeeder extends Seeder
     <p><strong>1.2</strong> "Material de formación" es el material de formación en línea, que se utiliza para formar al Aprendiz. Debido a su naturaleza inmediatamente consumible y transferible, no se concederán reembolsos una vez que se haya concedido el acceso al material de formación en línea. El precio del material de formación en línea se indica en el artículo 4.1.</p>
 
     <h2>Artículo 2. Servicio de formación</h2>
-    <p><strong>2.1</strong> Por la presente, UNO X CIENTO LLC concede al Aprendiz, durante el Periodo de Vigencia, una licencia no exclusiva, intransferible (a menos que se acuerde lo contrario por escrito) que le otorga el derecho a acceder y utilizar el material del curso en línea, sujeto a los términos de este Acuerdo y únicamente para fines internos dentro de la propia empresa del Aprendiz. Durante la vigencia, El Aprendiz también podrá hacer uso del Servicio de Coaching.</p>
+    <p><strong>2.1</strong> Por la presente, Elite Closer Society LLC concede al Aprendiz, durante el Periodo de Vigencia, una licencia no exclusiva, intransferible (a menos que se acuerde lo contrario por escrito) que le otorga el derecho a acceder y utilizar el material del curso en línea, sujeto a los términos de este Acuerdo y únicamente para fines internos dentro de la propia empresa del Aprendiz. Durante la vigencia, El Aprendiz también podrá hacer uso del Servicio de Coaching.</p>
 
     <p><strong>2.2</strong> El plazo de acceso al contenido del curso, a los materiales de formación y a las sesiones de preguntas y respuestas en directo será de <strong>180 días</strong>.</p>
 
@@ -103,7 +103,7 @@ class ContractTemplatesSeeder extends Seeder
 
     <h1>ANEXO 1. Forma de pago</h1>
 
-    <p>UNO X CIENTO LLC, sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz") acuerdan lo siguiente:</p>
+    <p>Elite Closer Society LLC, sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz") acuerdan lo siguiente:</p>
 
     <p>Las partes declaran que han suscripto con anterioridad el "Acuerdo de Formación Personalizada" que se encuentra plenamente vigente.</p>
 
@@ -136,7 +136,7 @@ class ContractTemplatesSeeder extends Seeder
     <h1>Acuerdo de Formación Personalizada</h1>
 
     <p><strong>PARTES:</strong></p>
-    <p>El presente Acuerdo de Formación (en adelante: "Acuerdo") se celebra entre UNO X CIENTO LLC, una sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz"). Ambos acuerdan que los siguientes términos y condiciones se aplicarán a los servicios prestados en virtud del presente Contrato.</p>
+    <p>El presente Acuerdo de Formación (en adelante: "Acuerdo") se celebra entre Elite Closer Society LLC, una sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz"). Ambos acuerdan que los siguientes términos y condiciones se aplicarán a los servicios prestados en virtud del presente Contrato.</p>
 
     <h2>TÉRMINOS Y CONDICIONES Artículo 1. Definiciones</h2>
     <p><strong>1.1</strong> "Servicio de formación" o "Formación" o "Coaching" se refiere al servicio de la empresa de "Closer de ventas/Cerrador de ventas" que proporciona el uso y acceso al material de formación en línea, que se pone a disposición del Aprendiz en base a un plazo de uso.</p>
@@ -144,7 +144,7 @@ class ContractTemplatesSeeder extends Seeder
     <p><strong>1.2</strong> "Material de formación" es el material de formación en línea, que se utiliza para formar al Aprendiz. Debido a su naturaleza inmediatamente consumible y transferible, no se concederán reembolsos una vez que se haya concedido el acceso al material de formación en línea. El precio del material de formación en línea se indica en el artículo 4.1.</p>
 
     <h2>Artículo 2. Servicio de formación</h2>
-    <p><strong>2.1</strong> Por la presente, UNO X CIENTO LLC concede al Aprendiz, durante el Periodo de Vigencia, una licencia no exclusiva, intransferible (a menos que se acuerde lo contrario por escrito) que le otorga el derecho a acceder y utilizar el material del curso en línea, sujeto a los términos de este Acuerdo y únicamente para fines internos dentro de la propia empresa del Aprendiz. Durante la vigencia, El Aprendiz también podrá hacer uso del Servicio de Coaching.</p>
+    <p><strong>2.1</strong> Por la presente, Elite Closer Society LLC concede al Aprendiz, durante el Periodo de Vigencia, una licencia no exclusiva, intransferible (a menos que se acuerde lo contrario por escrito) que le otorga el derecho a acceder y utilizar el material del curso en línea, sujeto a los términos de este Acuerdo y únicamente para fines internos dentro de la propia empresa del Aprendiz. Durante la vigencia, El Aprendiz también podrá hacer uso del Servicio de Coaching.</p>
 
     <p><strong>2.2</strong> El plazo de acceso al contenido del curso, a los materiales de formación y a las sesiones de preguntas y respuestas en directo será de <strong>180 días</strong>.</p>
 
@@ -168,7 +168,7 @@ class ContractTemplatesSeeder extends Seeder
 
     <h1>ANEXO 1. Forma de pago</h1>
 
-    <p>UNO X CIENTO LLC, sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz") acuerdan lo siguiente:</p>
+    <p>Elite Closer Society LLC, sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz") acuerdan lo siguiente:</p>
 
     <p>Las partes declaran que han suscripto con anterioridad el "Acuerdo de Formación Personalizada" que se encuentra plenamente vigente.</p>
 
@@ -201,7 +201,7 @@ class ContractTemplatesSeeder extends Seeder
     <h1>Acuerdo de Formación Personalizada</h1>
 
     <p><strong>PARTES:</strong></p>
-    <p>El presente Acuerdo de Formación (en adelante: "Acuerdo") se celebra entre UNO X CIENTO LLC, una sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz"). Ambos acuerdan que los siguientes términos y condiciones se aplicarán a los servicios prestados en virtud del presente Contrato.</p>
+    <p>El presente Acuerdo de Formación (en adelante: "Acuerdo") se celebra entre Elite Closer Society LLC, una sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz"). Ambos acuerdan que los siguientes términos y condiciones se aplicarán a los servicios prestados en virtud del presente Contrato.</p>
 
     <h2>TÉRMINOS Y CONDICIONES Artículo 1. Definiciones</h2>
     <p><strong>1.1</strong> "Servicio de formación" o "Formación" o "Coaching" se refiere al servicio de la empresa de "Closer de ventas/Cerrador de ventas" que proporciona el uso y acceso al material de formación en línea, que se pone a disposición del Aprendiz en base a un plazo de uso.</p>
@@ -209,7 +209,7 @@ class ContractTemplatesSeeder extends Seeder
     <p><strong>1.2</strong> "Material de formación" es el material de formación en línea, que se utiliza para formar al Aprendiz. Debido a su naturaleza inmediatamente consumible y transferible, no se concederán reembolsos una vez que se haya concedido el acceso al material de formación en línea.</p>
 
     <h2>Artículo 2. Servicio de formación</h2>
-    <p><strong>2.1</strong> Por la presente, UNO X CIENTO LLC concede al Aprendiz, durante el Periodo de Vigencia, una licencia no exclusiva, intransferible (a menos que se acuerde lo contrario por escrito) que le otorga el derecho a acceder y utilizar el material del curso en línea, sujeto a los términos de este Acuerdo y únicamente para fines internos dentro de la propia empresa del Aprendiz. Durante la vigencia, El Aprendiz también podrá hacer uso del Servicio de Coaching.</p>
+    <p><strong>2.1</strong> Por la presente, Elite Closer Society LLC concede al Aprendiz, durante el Periodo de Vigencia, una licencia no exclusiva, intransferible (a menos que se acuerde lo contrario por escrito) que le otorga el derecho a acceder y utilizar el material del curso en línea, sujeto a los términos de este Acuerdo y únicamente para fines internos dentro de la propia empresa del Aprendiz. Durante la vigencia, El Aprendiz también podrá hacer uso del Servicio de Coaching.</p>
 
     <p><strong>2.2</strong> El plazo de acceso al contenido del curso, a los materiales de formación y a las sesiones de preguntas y respuestas en directo será de <strong>180 días</strong>.</p>
 
@@ -230,7 +230,7 @@ class ContractTemplatesSeeder extends Seeder
 
     <h1>ANEXO 1. Forma de pago</h1>
 
-    <p>UNO X CIENTO LLC, sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz") acuerdan lo siguiente:</p>
+    <p>Elite Closer Society LLC, sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz") acuerdan lo siguiente:</p>
 
     <p>Las partes declaran que han suscripto con anterioridad el "Acuerdo de Formación Personalizada" que se encuentra plenamente vigente.</p>
 
@@ -265,7 +265,7 @@ class ContractTemplatesSeeder extends Seeder
     <h1>Acuerdo de Formación Personalizada</h1>
 
     <p><strong>PARTES:</strong></p>
-    <p>El presente Acuerdo de Formación (en adelante: "Acuerdo") se celebra entre UNO X CIENTO LLC, una sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz"). Ambos acuerdan que los siguientes términos y condiciones se aplicarán a los servicios prestados en virtud del presente Contrato.</p>
+    <p>El presente Acuerdo de Formación (en adelante: "Acuerdo") se celebra entre Elite Closer Society LLC, una sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz"). Ambos acuerdan que los siguientes términos y condiciones se aplicarán a los servicios prestados en virtud del presente Contrato.</p>
 
     <h2>TÉRMINOS Y CONDICIONES Artículo 1. Definiciones</h2>
     <p><strong>1.1</strong> "Servicio de formación" o "Formación" o "Coaching" se refiere al servicio de la empresa de "Closer de ventas/Cerrador de ventas" que proporciona el uso y acceso al material de formación en línea, que se pone a disposición del Aprendiz en base a un plazo de uso.</p>
@@ -273,7 +273,7 @@ class ContractTemplatesSeeder extends Seeder
     <p><strong>1.2</strong> "Material de formación" es el material de formación en línea, que se utiliza para formar al Aprendiz. Debido a su naturaleza inmediatamente consumible y transferible, no se concederán reembolsos una vez que se haya concedido el acceso al material de formación en línea.</p>
 
     <h2>Artículo 2. Servicio de formación</h2>
-    <p><strong>2.1</strong> Por la presente, UNO X CIENTO LLC concede al Aprendiz, durante el Periodo de Vigencia, una licencia no exclusiva, intransferible (a menos que se acuerde lo contrario por escrito) que le otorga el derecho a acceder y utilizar el material del curso en línea, sujeto a los términos de este Acuerdo y únicamente para fines internos dentro de la propia empresa del Aprendiz. Durante la vigencia, El Aprendiz también podrá hacer uso del Servicio de Coaching.</p>
+    <p><strong>2.1</strong> Por la presente, Elite Closer Society LLC concede al Aprendiz, durante el Periodo de Vigencia, una licencia no exclusiva, intransferible (a menos que se acuerde lo contrario por escrito) que le otorga el derecho a acceder y utilizar el material del curso en línea, sujeto a los términos de este Acuerdo y únicamente para fines internos dentro de la propia empresa del Aprendiz. Durante la vigencia, El Aprendiz también podrá hacer uso del Servicio de Coaching.</p>
 
     <p><strong>2.2</strong> El plazo de acceso al contenido del curso, a los materiales de formación y a las sesiones de preguntas y respuestas en directo será de <strong>180 días</strong>.</p>
 
@@ -291,7 +291,7 @@ class ContractTemplatesSeeder extends Seeder
 
     <h1>ANEXO 1. Forma de pago</h1>
 
-    <p>UNO X CIENTO LLC, sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz") acuerdan lo siguiente:</p>
+    <p>Elite Closer Society LLC, sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz") acuerdan lo siguiente:</p>
 
     <p>Las partes declaran que han suscripto con anterioridad el "Acuerdo de Formación Personalizada" que se encuentra plenamente vigente.</p>
 
@@ -326,7 +326,7 @@ class ContractTemplatesSeeder extends Seeder
     <h1>Acuerdo de Formación Personalizada</h1>
 
     <p><strong>PARTES:</strong></p>
-    <p>El presente Acuerdo de Formación (en adelante: "Acuerdo") se celebra entre UNO X CIENTO LLC, una sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz"). Ambos acuerdan que los siguientes términos y condiciones se aplicarán a los servicios prestados en virtud del presente Contrato.</p>
+    <p>El presente Acuerdo de Formación (en adelante: "Acuerdo") se celebra entre Elite Closer Society LLC, una sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz"). Ambos acuerdan que los siguientes términos y condiciones se aplicarán a los servicios prestados en virtud del presente Contrato.</p>
 
     <h2>TÉRMINOS Y CONDICIONES Artículo 1. Definiciones</h2>
     <p><strong>1.1</strong> "Servicio de formación" o "Formación" o "Coaching" se refiere al servicio de la empresa de "Closer de ventas/Cerrador de ventas" que proporciona el uso y acceso al material de formación en línea, que se pone a disposición del Aprendiz en base a un plazo de uso.</p>
@@ -334,7 +334,7 @@ class ContractTemplatesSeeder extends Seeder
     <p><strong>1.2</strong> "Material de formación" es el material de formación en línea, que se utiliza para formar al Aprendiz. Debido a su naturaleza inmediatamente consumible y transferible, no se concederán reembolsos una vez que se haya concedido el acceso al material de formación en línea. El precio del material de formación en línea se indica en el artículo 4.1.</p>
 
     <h2>Artículo 2. Servicio de formación</h2>
-    <p><strong>2.1</strong> Por la presente, UNO X CIENTO LLC concede al Aprendiz, durante el Periodo de Vigencia, una licencia no exclusiva, intransferible (a menos que se acuerde lo contrario por escrito) que le otorga el derecho a acceder y utilizar el material del curso en línea, sujeto a los términos de este Acuerdo y únicamente para fines internos dentro de la propia empresa del Aprendiz. Durante la vigencia, El Aprendiz también podrá hacer uso del Servicio de Coaching.</p>
+    <p><strong>2.1</strong> Por la presente, Elite Closer Society LLC concede al Aprendiz, durante el Periodo de Vigencia, una licencia no exclusiva, intransferible (a menos que se acuerde lo contrario por escrito) que le otorga el derecho a acceder y utilizar el material del curso en línea, sujeto a los términos de este Acuerdo y únicamente para fines internos dentro de la propia empresa del Aprendiz. Durante la vigencia, El Aprendiz también podrá hacer uso del Servicio de Coaching.</p>
 
     <p><strong>2.2</strong> El plazo de acceso al contenido del curso, a los materiales de formación y a las sesiones de preguntas y respuestas en directo será de <strong>180 días</strong>.</p>
 
@@ -358,7 +358,7 @@ class ContractTemplatesSeeder extends Seeder
 
     <h1>ANEXO 1. Forma de pago</h1>
 
-    <p>UNO X CIENTO LLC, sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz") acuerdan lo siguiente:</p>
+    <p>Elite Closer Society LLC, sociedad constituida y existente bajo las leyes Argentinas (en lo sucesivo: "Coach") y <strong>{nombre}</strong>, DNI <strong>{dni}</strong> (en lo sucesivo: "Aprendiz") acuerdan lo siguiente:</p>
 
     <p>Las partes declaran que han suscripto con anterioridad el "Acuerdo de Formación Personalizada" que se encuentra plenamente vigente.</p>
 
